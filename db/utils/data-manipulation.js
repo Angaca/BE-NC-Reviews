@@ -1,4 +1,4 @@
-exports.formatCatagories = (categories) => {
+exports.formatCategories = (categories) => {
   return categories.map((category) => [category.slug, category.description]);
 };
 

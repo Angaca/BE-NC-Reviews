@@ -66,8 +66,6 @@ const seed = async (data) => {
     formatComments(commentData, reviewRefs.rows)
   );
   await db.query(commentsQuery);
-  const table = await db.query(`SELECT * FROM comments;`);
-  console.log(table.rows);
 };
 
 module.exports = seed;
