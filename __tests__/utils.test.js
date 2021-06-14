@@ -1,11 +1,13 @@
 const seed = require("../db/seeds/seed");
 const {
-  categoriesValues,
-  usersValues,
+  formatCatagories,
+  formatUsers,
+  formatReviews,
+  formatComments,
 } = require("../db/utils/data-manipulation");
 const testData = require("../db/data/test-data");
 
-describe("categoriesValues()", () => {
+describe("formatCatagories()", () => {
   it("should return an array of categories values", () => {
     const input = [
       {
@@ -13,7 +15,7 @@ describe("categoriesValues()", () => {
         description: "Abstact games that involve little luck",
       },
     ];
-    expect(categoriesValues(input)).toEqual([
+    expect(formatCatagories(input)).toEqual([
       ["euro game", "Abstact games that involve little luck"],
     ]);
   });
@@ -24,7 +26,7 @@ describe("categoriesValues()", () => {
         description: "Abstact games that involve little luck",
       },
     ];
-    categoriesValues(input);
+    formatCatagories(input);
     expect(input).toEqual([
       {
         slug: "euro game",
@@ -34,7 +36,7 @@ describe("categoriesValues()", () => {
   });
 });
 
-describe("usersValues()", () => {
+describe("formatUsers()", () => {
   it("should return an array of users values", () => {
     const input = [
       {
@@ -50,7 +52,7 @@ describe("usersValues()", () => {
           "https://avatars2.githubusercontent.com/u/24604688?s=460&v=4",
       },
     ];
-    expect(usersValues(input)).toEqual([
+    expect(formatUsers(input)).toEqual([
       [
         "mallionaire",
         "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
@@ -78,7 +80,7 @@ describe("usersValues()", () => {
           "https://avatars2.githubusercontent.com/u/24604688?s=460&v=4",
       },
     ];
-    usersValues(input);
+    formatUsers(input);
     expect(input).toEqual([
       {
         username: "mallionaire",
@@ -93,5 +95,55 @@ describe("usersValues()", () => {
           "https://avatars2.githubusercontent.com/u/24604688?s=460&v=4",
       },
     ]);
+  });
+});
+
+describe("formatReviews()", () => {
+  test("Should return an array of reviews data", () => {
+    const input = [
+      {
+        title: "Agricola",
+        designer: "Uwe Rosenberg",
+        owner: "mallionaire",
+        review_body: "Farmyard fun!",
+        category: "euro game",
+        created_at: 1610964020514,
+        votes: 1,
+        review_img_url:
+          "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+      },
+    ];
+    expect(formatReviews(input)).toEqual([
+      [
+        "Agricola",
+        "Farmyard fun!",
+        "Uwe Rosenberg",
+        "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+        1,
+        "euro game",
+        "mallionaire",
+        1610964020514,
+      ],
+    ]);
+  });
+});
+
+describe("formatComments", () => {
+  test("Should return an array of values", () => {
+    const input = [
+      {
+        title: "Agricola",
+        designer: "Uwe Rosenberg",
+        owner: "mallionaire",
+        review_body: "Farmyard fun!",
+        category: "euro game",
+        created_at: new Date(1610964020514),
+        votes: 1,
+        review_img_url:
+          "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+      },
+    ];
+    const reviewRefs = formatReviews(testData.reviewData);
+    expect(Array.isArray(formatComments(input, reviewRefs))).toBe(true);
   });
 });

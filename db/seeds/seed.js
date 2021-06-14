@@ -1,6 +1,11 @@
 const db = require("../connection");
 const format = require("pg-format");
-const { categoriesValues, usersValues } = require("../utils/data-manipulation");
+const {
+  formatCategories,
+  formatUsers,
+  formatReviews,
+  formatComments,
+} = require("../utils/data-manipulation");
 
 const seed = async (data) => {
   const { categoryData, commentData, reviewData, userData } = data;
@@ -23,7 +28,7 @@ const seed = async (data) => {
     votes INT DEFAULT 0,
     category VARCHAR(100) REFERENCES categories(slug),
     owner VARCHAR(100) REFERENCES users(username),
-    create_at DATE DEFAULT CURRENT_TIMESTAMP
+    created_at DATE DEFAULT CURRENT_TIMESTAMP
   );`);
   await db.query(`CREATE TABLE comments (
     comment_id SERIAL PRIMARY KEY,
@@ -39,7 +44,7 @@ const seed = async (data) => {
   VALUES
   %L
   RETURNING *;`,
-    categoriesValues(categoryData)
+    formatCategories(categoryData)
   );
   await db.query(categoriesQuery);
   const usersQuery = format(
@@ -48,11 +53,21 @@ const seed = async (data) => {
     VALUES
     %L
     RETURNING *;`,
-    usersValues(userData)
+    formatUsers(userData)
   );
   await db.query(usersQuery);
-  // const table = await db.query(`SELECT * FROM categories;`);
-  // console.table(table.rows);
+  const reviewsQuery = format(
+    `INSERT INTO reviews (title, review_body, designer, review_img_url, votes, category, owner, created_at) VALUES %L RETURNING *;`,
+    formatReviews(reviewData)
+  );
+  const reviewRefs = await db.query(reviewsQuery);
+  const commentsQuery = format(
+    `INSERT INTO comments (author, review_id, votes, created_at, body)VALUES %L RETURNING *;`,
+    formatComments(commentData, reviewRefs.rows)
+  );
+  await db.query(commentsQuery);
+  const table = await db.query(`SELECT * FROM comments;`);
+  console.log(table.rows);
 };
 
 module.exports = seed;
