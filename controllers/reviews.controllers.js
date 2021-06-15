@@ -13,8 +13,8 @@ exports.getReviewById = (req, res, next) => {
 
 exports.patchReview = (req, res, next) => {
   const { review_id } = req.params;
-  const { review_body } = req.body;
-  updateReview(review_id, review_body)
+  const { inc_votes } = req.body;
+  updateReview(review_id, inc_votes)
     .then((review) => res.status(202).send({ review }))
     .catch(next);
 };

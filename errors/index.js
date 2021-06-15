@@ -6,7 +6,7 @@ exports.handlingCustomErrors = (err, req, res, next) => {
 
 exports.handlingPSQLErrors = (err, req, res, next) => {
   if ((err.code = "22P02")) {
-    res.status(400).send({ msg: "Invalid id" });
+    res.status(400).send({ msg: "Invalid type of data" });
   } else next(err);
 };
 

@@ -32,7 +32,6 @@ describe("GET /api/categories", () => {
 describe("GET /api/reviews/:review_id", () => {
   test("status 200 - should return an array of a single object of a single review", async () => {
     const { body } = await request(app).get("/api/reviews/2").expect(200);
-    console.log(body);
     expect(body.review).toHaveLength(1);
     expect(body.review[0]).toEqual(
       expect.objectContaining({
@@ -51,7 +50,7 @@ describe("GET /api/reviews/:review_id", () => {
   });
   test("status 400 - should return a 400 Bad request for an invalid id", async () => {
     const { body } = await request(app).get("/api/reviews/NaN").expect(400);
-    expect(body.msg).toBe("Invalid id");
+    expect(body.msg).toBe("Invalid type of data");
   });
   test("status 404 - should return 404 for a non existing id", async () => {
     const { body } = await request(app).get("/api/reviews/1000").expect(404);
@@ -60,8 +59,8 @@ describe("GET /api/reviews/:review_id", () => {
 });
 
 describe("PATCH /api/reviews/:review_id", () => {
-  test("status 202 - should update the id specified review and return it inside a single object", async () => {
-    const patch = { review_body: "That's a better review!" };
+  test("status 202 - should update the votes of the id specified review and return it inside a single object", async () => {
+    const patch = { inc_votes: 3 };
     const { body } = await request(app)
       .patch("/api/reviews/1")
       .send(patch)
@@ -71,14 +70,45 @@ describe("PATCH /api/reviews/:review_id", () => {
       expect.objectContaining({
         review_id: expect.any(Number),
         title: expect.any(String),
-        review_body: "That's a better review!",
+        review_body: expect.any(String),
         designer: expect.any(String),
         review_img_url: expect.any(String),
-        votes: expect.any(Number),
+        votes: 4,
         category: expect.any(String),
         owner: expect.any(String),
         created_at: expect.any(String),
       })
     );
+  });
+  test("status 400 - should return a 400 Bad request for an invalid id", async () => {
+    const patch = { inc_votes: 3 };
+    const { body } = await request(app)
+      .patch("/api/reviews/NaN")
+      .send(patch)
+      .expect(400);
+    expect(body.msg).toBe("Invalid type of data");
+  });
+  test("status 404 - should return 404 for a non existing id", async () => {
+    const patch = { inc_votes: 3 };
+    const { body } = await request(app)
+      .patch("/api/reviews/1000")
+      .send(patch)
+      .expect(404);
+    expect(body.msg).toBe("Not found");
+  });
+  test("status 400 - should return 400 for an invalid votes increase amount", async () => {
+    const patch = { inc_votes: "NaN" };
+    const { body } = await request(app)
+      .patch("/api/reviews/1")
+      .send(patch)
+      .expect(400);
+    expect(body.msg).toBe("Invalid type of data");
+  });
+  test("status 400 - should return 400 Bad request for a malformed body (missing inc_votes)", async () => {
+    const { body } = await request(app)
+      .patch("/api/reviews/1")
+      .send({})
+      .expect(400);
+    expect(body.msg).toBe("Malformed body");
   });
 });

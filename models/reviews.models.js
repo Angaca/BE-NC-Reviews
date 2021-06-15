@@ -22,14 +22,15 @@ exports.selectReviewById = async (review_id) => {
   return rows;
 };
 
-exports.updateReview = async (review_id, review_body) => {
+exports.updateReview = async (review_id, inc_votes) => {
+  if (!inc_votes) return Promise.reject({ status: 400, msg: "Malformed body" });
   const { rows } = await db.query(
     `UPDATE reviews
   SET
-    review_body = $2
+    votes = votes + $2
   WHERE review_id = $1
   RETURNING *`,
-    [review_id, review_body]
+    [review_id, inc_votes]
   );
   if (rows.length === 0) {
     return rejectWrongId();
