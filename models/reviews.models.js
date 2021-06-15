@@ -1,7 +1,40 @@
 const db = require("../db/connection");
 
-exports.selectReviewById = (review_id) => {
-  return db
-    .query("SELECT * FROM reviews WHERE review_id = $1", [review_id])
-    .then(({ rows }) => rows);
+const rejectWrongId = () => {
+  return Promise.reject({ status: 404, msg: "Not found" });
 };
+
+exports.selectReviewById = async (review_id) => {
+  const { rows } = await db.query(
+    `SELECT * FROM reviews 
+    JOIN users ON users.username = reviews.owner
+    WHERE review_id = $1 `,
+    [review_id]
+  );
+  if (rows.length === 0) {
+    return rejectWrongId();
+  }
+  const comments = await db.query(
+    `SELECT * FROM comments WHERE review_id = $1`,
+    [review_id]
+  );
+  rows[0].comment_count = comments.rows.length;
+  return rows;
+};
+
+exports.updateReview = async (review_id, review_body) => {
+  const { rows } = await db.query(
+    `UPDATE reviews
+  SET
+    review_body = $2
+  WHERE review_id = $1
+  RETURNING *`,
+    [review_id, review_body]
+  );
+  if (rows.length === 0) {
+    return rejectWrongId();
+  }
+  return rows;
+};
+
+exports.selectReviews = () => {};
