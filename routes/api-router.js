@@ -10,7 +10,7 @@ apiRouter.get("/", (req, res) => {
       "Allow to increment the votes of the specific review",
     "GET /api/reviews": "Get all the reviews",
     "GET /api/reviews/:review_id/comments":
-      "GEt all the comments relative the specific review",
+      "Get all the comments relative to the specific review",
     "POST /api/reviews/:review_id/comments": "Allow to post a new comment",
   });
 });
