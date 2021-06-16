@@ -1,6 +1,6 @@
-const { response } = require("express");
 const db = require("../db/connection");
 const { reviewData } = require("../db/data/test-data");
+const format = require("pg-format");
 
 const allowedColumns = Object.keys(reviewData[0]);
 allowedColumns.push("comment_count");
@@ -79,5 +79,28 @@ exports.selectReviews = async (
     if (allowedCategories.includes(category)) return [];
     return rejectWrongData();
   }
+  return rows;
+};
+
+exports.selectCommentsByReviewId = async (review_id) => {
+  const { rows } = await db.query(
+    `SELECT comment_id, votes, created_at, author, body FROM comments
+  LEFT JOIN users ON users.username = comments.author
+  WHERE review_id = $1;`,
+    [review_id]
+  );
+  return rows;
+};
+
+exports.insertComment = async (review_id, username, body) => {
+  const queryStr = format(
+    `INSERT INTO comments
+  (review_id, author, body)
+  VALUES
+  %L
+  RETURNING *;`,
+    [[review_id, username, body]]
+  );
+  const { rows } = await db.query(queryStr);
   return rows;
 };

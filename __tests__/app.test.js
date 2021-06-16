@@ -192,3 +192,44 @@ describe("GET /api/reviews", () => {
     expect(body.reviews).toEqual([]);
   });
 });
+
+describe("GET /api/reviews/:review_id/comments", () => {
+  test("status 200 - should respond with an array of comments for the given review_id", async () => {
+    const { body } = await request(app)
+      .get("/api/reviews/2/comments")
+      .expect(200);
+    expect(body.comments).toHaveLength(3);
+    body.comments.forEach((comment) => {
+      expect(comment).toEqual(
+        expect.objectContaining({
+          comment_id: expect.any(Number),
+          votes: expect.any(Number),
+          created_at: expect.any(String),
+          author: expect.any(String),
+          body: expect.any(String),
+        })
+      );
+    });
+  });
+  test("status 404 - should return a 404 Not found for an invalid id", async () => {
+    const { body } = await request(app)
+      .get("/api/reviews/NaN/categories")
+      .expect(404);
+    expect(body.msg).toBe("Not found");
+  });
+});
+
+describe("POST /api/reviews/:review_id/comments", () => {
+  test("status 201 - should add a new comment and return it to confirm all is ok", async () => {
+    const newComment = {
+      username: "bainesface",
+      body: "Yes! Amazing :)",
+    };
+    const { body } = await request(app)
+      .post("/api/reviews/2/comments")
+      .send(newComment)
+      .expect(201);
+    expect(body.comment[0].author).toBe("bainesface");
+    expect(body.comment[0].body).toBe("Yes! Amazing :)");
+  });
+});
