@@ -15,10 +15,13 @@ exports.patchReview = (req, res, next) => {
   const { review_id } = req.params;
   const { inc_votes } = req.body;
   updateReview(review_id, inc_votes)
-    .then((review) => res.status(202).send({ review }))
+    .then((review) => res.send({ review }))
     .catch(next);
 };
 
 exports.getReviews = (req, res, next) => {
-  selectReviews();
+  const { sort_by, order, category } = req.query;
+  selectReviews(sort_by, order, category)
+    .then((reviews) => res.send({ reviews }))
+    .catch(next);
 };

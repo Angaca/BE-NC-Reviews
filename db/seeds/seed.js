@@ -20,22 +20,22 @@ const seed = async (data) => {
     name VARCHAR(100) NOT NULL
   );`);
   await db.query(`CREATE TABLE reviews (
-    review_id SERIAL PRIMARY KEY,
+    review_id SERIAL PRIMARY KEY NOT NULL,
     title VARCHAR(100) NOT NULL,
     review_body TEXT NOT NULL,
     designer VARCHAR(100) NOT NULL,
-    review_img_url TEXT DEFAULT 'https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg',
-    votes INT DEFAULT 0,
-    category VARCHAR(100) REFERENCES categories(slug),
-    owner VARCHAR(100) REFERENCES users(username),
-    created_at DATE DEFAULT CURRENT_TIMESTAMP
+    review_img_url TEXT DEFAULT 'https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg' NOT NULL,
+    votes INT DEFAULT 0 NOT NULL,
+    category VARCHAR(100) REFERENCES categories(slug) NOT NULL,
+    owner VARCHAR(100) REFERENCES users(username) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
   );`);
   await db.query(`CREATE TABLE comments (
-    comment_id SERIAL PRIMARY KEY,
-    author VARCHAR(100) REFERENCES users(username),
-    review_id INT REFERENCES reviews(review_id),
-    votes INT DEFAULT 0,
-    created_at DATE DEFAULT CURRENT_TIMESTAMP,
+    comment_id SERIAL PRIMARY KEY NOT NULL,
+    author VARCHAR(100) REFERENCES users(username) NOT NULL,
+    review_id INT REFERENCES reviews(review_id) NOT NULL,
+    votes INT DEFAULT 0 NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     body TEXT NOT NULL
   )`);
   const categoriesQuery = format(

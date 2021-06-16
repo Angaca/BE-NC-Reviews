@@ -44,7 +44,7 @@ describe("GET /api/reviews/:review_id", () => {
         category: expect.any(String),
         owner: expect.any(String),
         created_at: expect.any(String),
-        comment_count: 3,
+        comment_count: "3",
       })
     );
   });
@@ -59,12 +59,12 @@ describe("GET /api/reviews/:review_id", () => {
 });
 
 describe("PATCH /api/reviews/:review_id", () => {
-  test("status 202 - should update the votes of the id specified review and return it inside a single object", async () => {
+  test("status 200 - should update the votes of the id specified review and return it inside a single object", async () => {
     const patch = { inc_votes: 3 };
     const { body } = await request(app)
       .patch("/api/reviews/1")
       .send(patch)
-      .expect(202);
+      .expect(200);
     expect(body.review).toHaveLength(1);
     expect(body.review[0]).toEqual(
       expect.objectContaining({
@@ -110,5 +110,85 @@ describe("PATCH /api/reviews/:review_id", () => {
       .send({})
       .expect(400);
     expect(body.msg).toBe("Malformed body");
+  });
+});
+
+describe("GET /api/reviews", () => {
+  test("status 200 - should return an array of all the reviews", async () => {
+    const { body } = await request(app).get("/api/reviews").expect(200);
+    expect(body.reviews).toHaveLength(13);
+    body.reviews.forEach((review) => {
+      expect(review).toEqual(
+        expect.objectContaining({
+          review_id: expect.any(Number),
+          title: expect.any(String),
+          review_body: expect.any(String),
+          designer: expect.any(String),
+          review_img_url: expect.any(String),
+          votes: expect.any(Number),
+          category: expect.any(String),
+          owner: expect.any(String),
+          created_at: expect.any(String),
+          comment_count: expect.any(String),
+        })
+      );
+    });
+  });
+  test("status 200 - should sort_by default DESC order by date", async () => {
+    const { body } = await request(app).get("/api/reviews").expect(200);
+    expect(body.reviews[0].created_at).toBe("2021-01-25T11:16:54.963Z");
+    expect(body.reviews[12].created_at).toBe("1970-01-10T02:08:38.400Z");
+  });
+  test("status 200 - should sort_by by any valid given column", async () => {
+    const { body } = await request(app)
+      .get("/api/reviews?sort_by=designer")
+      .expect(200);
+    expect(body.reviews[0].designer).toBe("Wolfgang Warsch");
+    expect(body.reviews[12].designer).toBe("Akihisa Okui");
+  });
+  test("status 200 - should allow to change the order of the sort_by by any valid given column", async () => {
+    const { body } = await request(app)
+      .get("/api/reviews?sort_by=title&order=asc")
+      .expect(200);
+    expect(body.reviews[0].title).toBe(
+      "A truly Quacking Game; Quacks of Quedlinburg"
+    );
+    expect(body.reviews[12].title).toBe("Ultimate Werewolf");
+  });
+  test("status 200 - should filter the results by the category query", async () => {
+    const { body } = await request(app)
+      .get("/api/reviews?category=social deduction")
+      .expect(200);
+    body.reviews.forEach((review) => {
+      expect(review).toEqual(
+        expect.objectContaining({
+          category: "social deduction",
+        })
+      );
+    });
+  });
+  test("status 400 - should return Invalid request if given an invalid column", async () => {
+    const { body } = await request(app)
+      .get("/api/reviews?sort_by=notAColumn")
+      .expect(400);
+    expect(body.msg).toBe("Invalid sort query");
+  });
+  test("status 400 - should return Invalid request if given an invalid order method", async () => {
+    const { body } = await request(app)
+      .get("/api/reviews?order=notAnOrder")
+      .expect(400);
+    expect(body.msg).toBe("Invalid order query");
+  });
+  test("status 400 - should return Invalid request if given an invalid category not present in the db", async () => {
+    const { body } = await request(app)
+      .get("/api/reviews?category=notACategory")
+      .expect(400);
+    expect(body.msg).toBe("Invalid category query");
+  });
+  test("status 200 - should return empty object if request with a valid category with no entries in the table", async () => {
+    const { body } = await request(app)
+      .get("/api/reviews?category=children's games")
+      .expect(200);
+    expect(body.reviews).toEqual([]);
   });
 });

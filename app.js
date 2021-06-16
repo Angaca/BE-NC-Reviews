@@ -1,10 +1,4 @@
 const express = require("express");
-const { getCategories } = require("./controllers/categories.controllers");
-const {
-  getReviewById,
-  patchReview,
-  getReviews,
-} = require("./controllers/reviews.controllers");
 const {
   send404,
   handlingServerErrors,
@@ -18,10 +12,6 @@ const app = express();
 app.use(express.json());
 
 app.use("/api", apiRouter);
-// app.get("/api/categories", getCategories);
-// app.get("/api/reviews/:review_id", getReviewById);
-// app.patch("/api/reviews/:review_id", patchReview);
-// app.get("/api/reviews", getReviews);
 
 app.use(send404);
 

@@ -1,6 +1,26 @@
 You are now connected to database "nc_games_test" as user "andrea".
- review_id |  title   |       review_body       |   designer    |                              review_img_url                               | votes | category  |    owner    | created_at 
------------+----------+-------------------------+---------------+---------------------------------------------------------------------------+-------+-----------+-------------+------------
-         1 | Agricola | That's a better review! | Uwe Rosenberg | https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png |     1 | euro game | mallionaire | 2021-01-18
-(1 row)
+     category     | comment_count 
+------------------+---------------
+ dexterity        |             3
+ euro game        |             0
+ social deduction |             0
+ social deduction |             0
+ social deduction |             0
+ social deduction |             0
+ social deduction |             0
+ social deduction |             0
+ social deduction |             3
+ social deduction |             0
+ social deduction |             0
+ social deduction |             0
+ social deduction |             0
+(13 rows)
+
+       slug       |                     description                     
+------------------+-----------------------------------------------------
+ euro game        | Abstact games that involve little luck
+ social deduction | Players attempt to uncover each other's hidden role
+ dexterity        | Games involving physical skill
+ children's games | Games suitable for children
+(4 rows)
 
