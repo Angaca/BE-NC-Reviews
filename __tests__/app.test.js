@@ -270,3 +270,22 @@ describe("GET /api/users/:username", () => {
     );
   });
 });
+
+describe("PATCH /api/comments/:comment_id", () => {
+  test("status 200 - should update the votes of the id specified comments by the provided amount", async () => {
+    const patch = { inc_votes: 10 };
+    const { body } = await request(app)
+      .patch("/api/comments/1")
+      .send(patch)
+      .expect(200);
+    expect(body.comment[0]).toEqual(
+      expect.objectContaining({
+        comment_id: 1,
+        author: "bainesface",
+        votes: 26,
+        created_at: "2017-11-22T12:43:33.389Z",
+        body: "I loved this game too!",
+      })
+    );
+  });
+});

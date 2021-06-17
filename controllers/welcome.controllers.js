@@ -11,6 +11,8 @@ exports.welcomeAPI = (req, res) => {
     "GET /api/users/:username": "Get the specific user by its username",
     "PATCH /api/reviews/:review_id":
       "Allows to increment the votes of the specific review - only accepts an object format like >> { inc_votes : Number }",
+    "PATCH /api/comments/:comment_id":
+      "Allows to increment the votes of the specific comment - only accepts an object format like >> { inc_votes : Number }",
     "POST /api/reviews/:review_id/comments":
       "Allows to post a new comment - _only accepts an object format like >> { username: existingUsername, body: String }",
     "DELETE /api/comments/:comment_id":

@@ -1,6 +1,6 @@
 You are now connected to database "nc_games_test" as user "andrea".
-  username  |                         avatar_url                          | name  
-------------+-------------------------------------------------------------+-------
- bainesface | https://avatars2.githubusercontent.com/u/24394918?s=400&v=4 | sarah
+ comment_id |   author   | review_id | votes |       created_at        |          body          
+------------+------------+-----------+-------+-------------------------+------------------------
+          1 | bainesface |         2 |    16 | 2017-11-22 12:43:33.389 | I loved this game too!
 (1 row)
 
