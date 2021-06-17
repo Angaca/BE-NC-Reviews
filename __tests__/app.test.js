@@ -233,3 +233,24 @@ describe("POST /api/reviews/:review_id/comments", () => {
     expect(body.comment[0].body).toBe("Yes! Amazing :)");
   });
 });
+
+describe("DELETE /api/comments/:comment_id", () => {
+  test("status 204 - should delete the comment given its id", async () => {
+    const { body } = await request(app).delete("/api/comments/1").expect(204);
+    expect(body).toEqual({});
+  });
+});
+
+describe("GET /api/users", () => {
+  test("status 200 - should respond with an array of object with any object having the username property as the only value", async () => {
+    const { body } = await request(app).get("/api/users").expect(200);
+    expect(body).toHaveLength(4);
+    body.forEach((user) => {
+      expect(user).toEqual(
+        expect.objectContaining({
+          username: expect.any(String),
+        })
+      );
+    });
+  });
+});

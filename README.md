@@ -19,12 +19,14 @@ This is my first solo project, I have designed an API that allows the user to ge
 This API will allow the user to access data of reviews about table games.
 Following Northcoders instruction to setup the endpoints, I have made those available and live:
 
-- **GET /api/categories:** Get all the available categories
-- **GET /api/reviews/:review_id:** Get a specific review by its id
-- **GET /api/reviews:** Get all the reviews
-- **GET /api/reviews/:review_id/comments:** Get all the comments relative to the specific review id
-- **PATCH /api/reviews/:review_id:** Allow to increment the votes of the specific review - _only allows an object { inc_votes : Number }_
-- **POST /api/reviews/:review_id/comments:** Allow to post a new comment - _only allows an object including { username: existingUsername, body: String }_
+- **GET /api/categories:** Get all the available categories.
+- **GET /api/reviews/:review_id:** Get a specific review by its id.
+- **GET /api/reviews:** Get all the reviews - _allows to sort by sort_by=validColumns, order=asc/desc, and filter by category=existingCategory_.
+- **GET /api/reviews/:review_id/comments:** Get all the comments relative to the specific review id.
+- **GET /api/users:** Get all the users.
+- **PATCH /api/reviews/:review_id:** Allows to increment the votes of the specific review - _only accepts an object format like >> { inc_votes : Number }_.
+- **POST /api/reviews/:review_id/comments:** Allows to post a new comment - _only accepts an object format like >> { username: existingUsername, body: String }_.
+- **DELETE /api/comments/:comment_id:** It will delete the comment of the given id.
 
 ---
 
@@ -41,13 +43,10 @@ Following Northcoders instruction to setup the endpoints, I have made those avai
     "jest": "^27.0.4",
     "supertest": "^6.1.3"
   },
-  node: "^15.13.0",
-  postgres: {
-    "psql": "^13.2",
-    "server": "^13.3"
-  },
-  heroku,
 ```
+
+You will need to install Node and Postgres.
+I have hosted the API with Heroku.
 
 ---
 
@@ -64,7 +63,7 @@ npm install
 Seed local database:
 
 ```http
-npm run setup-dbs && seed
+npm run setup-dbs && npm run seed
 ```
 
 Testing locally with Jest:
