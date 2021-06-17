@@ -13,4 +13,5 @@
 -- LEFT JOIN users ON users.username = comments.author
 -- WHERE review_id = 2;
  
- SELECT * FROM users;
+SELECT * FROM users
+    WHERE username = jessjelly;

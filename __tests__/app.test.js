@@ -254,3 +254,19 @@ describe("GET /api/users", () => {
     });
   });
 });
+
+describe("GET /api/users/:username", () => {
+  test("status 200 - should respond with an user object by its username", async () => {
+    const { body } = await request(app)
+      .get("/api/users/bainesface")
+      .expect(200);
+    expect(body.user).toEqual(
+      expect.objectContaining({
+        username: "bainesface",
+        avatar_url:
+          "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4",
+        name: "sarah",
+      })
+    );
+  });
+});
