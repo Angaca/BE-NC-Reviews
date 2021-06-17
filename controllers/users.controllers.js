@@ -9,6 +9,6 @@ exports.getUsers = (req, res, next) => {
 exports.getUserByUsername = (req, res, next) => {
   const { username } = req.params;
   selectUserByUsername(username)
-    .then((user) => res.send(user))
+    .then((user) => res.send({ user }))
     .catch(next);
 };

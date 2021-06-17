@@ -8,6 +8,7 @@ exports.welcomeAPI = (req, res) => {
     "GET /api/reviews/:review_id/comments":
       "Get all the comments relative to the specific review id",
     "GET /api/users": "Get all the users",
+    "GET /api/users/:username": "Get the specific user by its username",
     "PATCH /api/reviews/:review_id":
       "Allows to increment the votes of the specific review - only accepts an object format like >> { inc_votes : Number }",
     "POST /api/reviews/:review_id/comments":

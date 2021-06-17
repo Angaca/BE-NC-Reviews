@@ -260,7 +260,7 @@ describe("GET /api/users/:username", () => {
     const { body } = await request(app)
       .get("/api/users/bainesface")
       .expect(200);
-    expect(body.user).toEqual(
+    expect(body.user[0]).toEqual(
       expect.objectContaining({
         username: "bainesface",
         avatar_url:

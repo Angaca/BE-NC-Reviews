@@ -24,6 +24,7 @@ Following Northcoders instruction to setup the endpoints, I have made those avai
 - **GET /api/reviews:** Get all the reviews - _allows to sort by sort_by=validColumns, order=asc/desc, and filter by category=existingCategory_.
 - **GET /api/reviews/:review_id/comments:** Get all the comments relative to the specific review id.
 - **GET /api/users:** Get all the users.
+- **GET /api/users/:username:** Get the specific user by its username.
 - **PATCH /api/reviews/:review_id:** Allows to increment the votes of the specific review - _only accepts an object format like >> { inc_votes : Number }_.
 - **POST /api/reviews/:review_id/comments:** Allows to post a new comment - _only accepts an object format like >> { username: existingUsername, body: String }_.
 - **DELETE /api/comments/:comment_id:** It will delete the comment of the given id.

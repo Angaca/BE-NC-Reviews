@@ -1,1 +1,6 @@
 You are now connected to database "nc_games_test" as user "andrea".
+  username  |                         avatar_url                          | name  
+------------+-------------------------------------------------------------+-------
+ bainesface | https://avatars2.githubusercontent.com/u/24394918?s=400&v=4 | sarah
+(1 row)
+
