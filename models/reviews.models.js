@@ -4,6 +4,7 @@ const format = require("pg-format");
 
 const allowedColumns = Object.keys(reviewData[0]);
 allowedColumns.push("comment_count");
+allowedColumns.push("review_id");
 
 const rejectWrongQuery = (method) => {
   return Promise.reject({ status: 400, msg: `Invalid ${method} query` });
