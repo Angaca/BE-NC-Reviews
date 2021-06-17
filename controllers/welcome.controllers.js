@@ -4,7 +4,7 @@ exports.welcomeAPI = (req, res) => {
     "GET /api/categories": "Get all the available categories",
     "GET /api/reviews/:review_id": "Get a specific review by its id",
     "GET /api/reviews":
-      "Get all the reviews - allows to sort by sort_by=validColumns, order=asc/desc, and filter by category=existingCategory",
+      "Get all the reviews - _allows to sort by sort_by=validColumns > default to created_at, order=asc/desc > default to desc; limit=positiveNumber > default to 10 results and filter by category=existingCategory_.",
     "GET /api/reviews/:review_id/comments":
       "Get all the comments relative to the specific review id",
     "GET /api/users": "Get all the users",

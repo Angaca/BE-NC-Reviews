@@ -47,10 +47,12 @@ exports.updateReview = async (review_id, inc_votes) => {
 exports.selectReviews = async (
   sort_by = "created_at",
   order = "desc",
-  category
+  category,
+  limit = 10
 ) => {
   if (!allowedColumns.includes(sort_by)) return rejectWrongQuery("sort");
   if (!["asc", "desc"].includes(order)) return rejectWrongQuery("order");
+  if (!/^\d+$/.test(limit)) return rejectWrongQuery("limit");
 
   let allowedCategories = [];
   if (category) {
@@ -72,7 +74,8 @@ exports.selectReviews = async (
   }
 
   queryStr += ` GROUP BY reviews.review_id
-  ORDER BY reviews.${sort_by} ${order};`;
+  ORDER BY reviews.${sort_by} ${order} 
+  LIMIT ${limit};`;
 
   const { rows } = await db.query(queryStr, queryValues);
   if (rows.length === 0) {
