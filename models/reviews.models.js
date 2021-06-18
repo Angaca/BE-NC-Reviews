@@ -105,6 +105,8 @@ exports.selectCommentsByReviewId = async (review_id, limit = 10, p = 0) => {
 };
 
 exports.insertComment = async (review_id, username, body) => {
+  if (!review_id || !username || !body)
+    return Promise.reject({ status: 400, msg: "Malformed body" });
   const queryStr = format(
     `INSERT INTO comments
   (review_id, author, body)
@@ -114,5 +116,27 @@ exports.insertComment = async (review_id, username, body) => {
     [[review_id, username, body]]
   );
   const { rows } = await db.query(queryStr);
+  return rows;
+};
+
+exports.insertReview = async (
+  owner,
+  title,
+  review_body,
+  designer,
+  category
+) => {
+  if (!owner || !title || !review_body || !designer || !category)
+    return Promise.reject({ status: 400, msg: "Malformed body" });
+  const queryStr = format(
+    `INSERT INTO reviews
+  (owner, title, review_body, designer, category)
+  VALUES
+  %L
+  RETURNING *;`,
+    [[owner, title, review_body, designer, category]]
+  );
+  const { rows } = await db.query(queryStr);
+  rows[0].comment_count = 0;
   return rows;
 };

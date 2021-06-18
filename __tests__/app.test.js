@@ -14,6 +14,13 @@ describe("ALL /*", () => {
   });
 });
 
+describe("GET /api", () => {
+  test("status 200 - should respond with a object containing all the available endpoints", async () => {
+    const { body } = await request(app).get("/api").expect(200);
+    expect(body.msg).toBe("Welcome! Please see the available endpoints below");
+  });
+});
+
 describe("GET /api/categories", () => {
   test("status 200 - should return an object with an array of categories", async () => {
     const { body } = await request(app).get("/api/categories").expect(200);
@@ -50,7 +57,7 @@ describe("GET /api/reviews/:review_id", () => {
   });
   test("status 400 - should return a 400 Bad request for an invalid id", async () => {
     const { body } = await request(app).get("/api/reviews/NaN").expect(400);
-    expect(body.msg).toBe("Invalid type of data");
+    expect(body.msg).toBe("Invalid data");
   });
   test("status 404 - should return 404 for a non existing id", async () => {
     const { body } = await request(app).get("/api/reviews/1000").expect(404);
@@ -86,7 +93,7 @@ describe("PATCH /api/reviews/:review_id", () => {
       .patch("/api/reviews/NaN")
       .send(patch)
       .expect(400);
-    expect(body.msg).toBe("Invalid type of data");
+    expect(body.msg).toBe("Invalid data");
   });
   test("status 404 - should return 404 for a non existing id", async () => {
     const patch = { inc_votes: 3 };
@@ -102,7 +109,7 @@ describe("PATCH /api/reviews/:review_id", () => {
       .patch("/api/reviews/1")
       .send(patch)
       .expect(400);
-    expect(body.msg).toBe("Invalid type of data");
+    expect(body.msg).toBe("Invalid data");
   });
   test("status 400 - should return 400 Bad request for a malformed body (missing inc_votes)", async () => {
     const { body } = await request(app)
@@ -228,13 +235,19 @@ describe("GET /api/reviews/:review_id/comments", () => {
     const { body } = await request(app)
       .get("/api/reviews/NaN/comments")
       .expect(400);
-    expect(body.msg).toBe("Invalid type of data");
+    expect(body.msg).toBe("Invalid data");
   });
   test("status 200 - should accept a limit query which limit the number of comments", async () => {
     const { body } = await request(app)
       .get("/api/reviews/3/comments?limit=1")
       .expect(200);
     expect(body.comments).toHaveLength(1);
+  });
+  test("status 200 - should respond with an empty object if the review id is valid but there is comments", async () => {
+    const { body } = await request(app)
+      .get("/api/reviews/1000/comments")
+      .expect(200);
+    expect(body.comments).toHaveLength(0);
   });
 });
 
@@ -306,5 +319,54 @@ describe("PATCH /api/comments/:comment_id", () => {
         body: "I loved this game too!",
       })
     );
+  });
+});
+
+describe("POST /api/reviews", () => {
+  test("status 201 - should add a new review and return it", async () => {
+    const newReview = {
+      owner: "bainesface",
+      title: "Exciting game",
+      review_body: "This is a great review",
+      designer: "Probably a cute dog",
+      category: "euro game",
+    };
+    const { body } = await request(app)
+      .post("/api/reviews")
+      .send(newReview)
+      .expect(201);
+    expect(body.review[0]).toEqual(
+      expect.objectContaining({
+        owner: "bainesface",
+        title: "Exciting game",
+        review_body: "This is a great review",
+        designer: "Probably a cute dog",
+        category: "euro game",
+        review_id: 14,
+        votes: 0,
+        comment_count: 0,
+      })
+    );
+  });
+  test("status 400 - should return an error if any mandatory key is missing from the body", async () => {
+    const { body } = await request(app)
+      .post("/api/reviews")
+      .send({})
+      .expect(400);
+    expect(body.msg).toBe("Malformed body");
+  });
+  test("status 400 - should return an error if all mandatory key are inserted but the data is not valid with the references", async () => {
+    const newReview = {
+      owner: "notAnOwner",
+      title: "Exciting game",
+      review_body: "This is a great review",
+      designer: "Probably a cute dog",
+      category: "notACategory",
+    };
+    const { body } = await request(app)
+      .post("/api/reviews")
+      .send(newReview)
+      .expect(400);
+    expect(body.msg).toBe("Invalid data");
   });
 });

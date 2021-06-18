@@ -4,6 +4,7 @@ const {
   selectReviews,
   selectCommentsByReviewId,
   insertComment,
+  insertReview,
 } = require("../models/reviews.models");
 
 exports.getReviewById = (req, res, next) => {
@@ -43,5 +44,12 @@ exports.postComment = (req, res, next) => {
   const { username, body } = req.body;
   insertComment(review_id, username, body)
     .then((comment) => res.status(201).send({ comment }))
+    .catch(next);
+};
+
+exports.postReview = (req, res, next) => {
+  const { owner, title, review_body, designer, category } = req.body;
+  insertReview(owner, title, review_body, designer, category)
+    .then((review) => res.status(201).send({ review }))
     .catch(next);
 };

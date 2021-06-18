@@ -1,5 +1,5 @@
-exports.welcomeAPI = (req, res) => {
-  res.status(200).send({
+exports.welcomeAPI = (req, res, next) => {
+  res.send({
     msg: "Welcome! Please see the available endpoints below",
     "GET /api/categories": "Get all the available categories",
     "GET /api/reviews/:review_id": "Get a specific review by its id",
@@ -13,6 +13,8 @@ exports.welcomeAPI = (req, res) => {
       "Allows to increment the votes of the specific review - only accepts an object format like >> { inc_votes : Number }",
     "PATCH /api/comments/:comment_id":
       "Allows to increment the votes of the specific comment - only accepts an object format like >> { inc_votes : Number }",
+    "POST /api/reviews":
+      "Allows to post a new comment - only accepts an object format like >> { owner: existingUsername, title: String, review_body: String, designer: String, category: existingCategory }",
     "POST /api/reviews/:review_id/comments":
       "Allows to post a new comment - only accepts an object format like >> { username: existingUsername, body: String }",
     "DELETE /api/comments/:comment_id":
@@ -20,6 +22,6 @@ exports.welcomeAPI = (req, res) => {
   });
 };
 
-exports.welcome = (req, res) => {
+exports.welcome = (req, res, next) => {
   res.send({ msg: "Welcome! Please go to the API endpoint >> /api" });
 };
