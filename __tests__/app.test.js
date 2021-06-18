@@ -393,3 +393,18 @@ describe("POST /api/categories", () => {
     expect(body.msg).toBe("Malformed body");
   });
 });
+
+describe("DELETE /api/reviews/review_id", () => {
+  test("status 204 - should delete the review given its id", async () => {
+    const { body } = await request(app).delete("/api/reviews/5").expect(204);
+    expect(body).toEqual({});
+  });
+  test("status 400 - should return an error if an invalid id is provided", async () => {
+    const { body } = await request(app).delete("/api/reviews/NaN").expect(400);
+    expect(body.msg).toBe("Invalid data");
+  });
+  test("status 404 - should return an error if an not existent id is provided", async () => {
+    const { body } = await request(app).delete("/api/reviews/1000").expect(404);
+    expect(body.msg).toBe("Not existent Id");
+  });
+});

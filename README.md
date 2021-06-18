@@ -32,6 +32,7 @@ I have create the seeding from some js files to a db and setup the endpoints, I 
 - **POST /api/reviews:** Allows to post a new comment - _only accepts an object format like >> { owner: existingUsername, title: String, review_body: String, designer: String, category: existingCategory }_.
 - **POST /api/reviews/:review_id/comments:** Allows to post a new comment - _only accepts an object format like >> { username: existingUsername, body: String }_.
 - **DELETE /api/comments/:comment_id:** It will delete the comment of the given id.
+- **DELETE /api/reviews/:review_id:** It will delete the review of the given id.
 
 ---
 

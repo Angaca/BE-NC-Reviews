@@ -21,6 +21,8 @@ exports.welcomeAPI = (req, res, next) => {
       "Allows to post a new comment - only accepts an object format like >> { username: existingUsername, body: String }",
     "DELETE /api/comments/:comment_id":
       "It will delete the comment of the given id",
+    "DELETE /api/reviews/:review_id":
+      "It will delete the review of the given id",
   });
 };
 

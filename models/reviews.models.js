@@ -140,3 +140,18 @@ exports.insertReview = async (
   rows[0].comment_count = 0;
   return rows;
 };
+
+exports.dropReview = async (review_id) => {
+  if (!/^\d+$/.test(review_id))
+    return Promise.reject({ status: 400, msg: "Invalid data" });
+  const { rows } = await db.query(`SELECT review_id FROM reviews;`);
+  const validIds = rows.map((id) => id.review_id);
+  if (!validIds.includes(+review_id))
+    return Promise.reject({ status: 404, msg: "Not existent Id" });
+  await db.query(
+    `DELETE FROM reviews
+  WHERE review_id = $1;`,
+    [review_id]
+  );
+  return;
+};
