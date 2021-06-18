@@ -146,9 +146,9 @@ describe("GET /api/reviews", () => {
   });
   test("status 200 - should allow to change the order of the sort_by by any valid given column", async () => {
     const { body } = await request(app)
-      .get("/api/reviews?sort_by=title&order=asc")
+      .get("/api/reviews?order=asc")
       .expect(200);
-    expect(body.reviews).toBeSortedBy("title");
+    expect(body.reviews).toBeSortedBy("created_at");
   });
   test("status 200 - should filter the results by the category query", async () => {
     const { body } = await request(app)
