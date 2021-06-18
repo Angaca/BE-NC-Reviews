@@ -17,7 +17,8 @@ This is my first solo project, I have designed an API that allows the user to ge
 ### General info
 
 This API will allow the user to access data of reviews about table games.
-Following Northcoders instruction to setup the endpoints, I have made those available and live:
+I have used Github Actions for Continuous Integration, Delivery and Deployment.
+I have create the seeding from some js files to a db and setup the endpoints, I have made those available and live:
 
 - **GET /api/categories:** Get all the available categories.
 - **GET /api/reviews/:review_id:** Get a specific review by its id.

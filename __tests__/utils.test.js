@@ -1,13 +1,13 @@
 const seed = require("../db/seeds/seed");
 const {
-  formatCatagories,
+  formatCategories,
   formatUsers,
   formatReviews,
   formatComments,
 } = require("../db/utils/data-manipulation");
 const testData = require("../db/data/test-data");
 
-describe("formatCatagories()", () => {
+describe("formatCategories()", () => {
   it("should return an array of categories values", () => {
     const input = [
       {
@@ -15,7 +15,7 @@ describe("formatCatagories()", () => {
         description: "Abstact games that involve little luck",
       },
     ];
-    expect(formatCatagories(input)).toEqual([
+    expect(formatCategories(input)).toEqual([
       ["euro game", "Abstact games that involve little luck"],
     ]);
   });
@@ -26,7 +26,7 @@ describe("formatCatagories()", () => {
         description: "Abstact games that involve little luck",
       },
     ];
-    formatCatagories(input);
+    formatCategories(input);
     expect(input).toEqual([
       {
         slug: "euro game",

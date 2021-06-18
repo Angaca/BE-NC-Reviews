@@ -1,0 +1,10 @@
+You are now connected to database "nc_games_test" as user "andrea".
+                        title                         | comment_count 
+------------------------------------------------------+---------------
+ Mollit elit qui incididunt veniam occaecat cupidatat |             0
+ A truly Quacking Game; Quacks of Quedlinburg         |             0
+ Scythe; you're gonna need a bigger table!            |             0
+ Ultimate Werewolf                                    |             3
+ Proident tempor et.                                  |             0
+(5 rows)
+
