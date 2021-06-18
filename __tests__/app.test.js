@@ -201,6 +201,14 @@ describe("GET /api/reviews", () => {
       .expect(400);
     expect(body.msg).toBe("Invalid limit query");
   });
+  test("status 200 - should accept a pagination as an offset calculated based on the limit", async () => {
+    const { body } = await request(app).get("/api/reviews?p=1").expect(200);
+    expect(body.reviews).toHaveLength(3);
+  });
+  xtest("status 200 - return object should have a total_count property which count the total element returning from the query", async () => {
+    const { body } = await request(app).get("/api/reviews?p=1").expect(200);
+    expect(body.reviews.total_count).toBe(3);
+  });
 });
 
 describe("GET /api/reviews/:review_id/comments", () => {

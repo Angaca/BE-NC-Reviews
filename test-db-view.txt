@@ -1,10 +1,10 @@
 You are now connected to database "nc_games_test" as user "andrea".
-     category     | comment_count 
-------------------+---------------
- dexterity        |             3
- euro game        |             0
- social deduction |             0
- social deduction |             0
- social deduction |             0
+                    title                    | comment_count 
+---------------------------------------------+---------------
+ Jenga                                       |             3
+ Agricola                                    |             0
+ Occaecat consequat officia in quis commodo. |             0
+ Settlers of Catan: Don't Settle For Less    |             0
+ Build you own tour de Yorkshire             |             0
 (5 rows)
 

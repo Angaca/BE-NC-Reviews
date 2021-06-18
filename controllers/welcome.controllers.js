@@ -4,7 +4,7 @@ exports.welcomeAPI = (req, res) => {
     "GET /api/categories": "Get all the available categories",
     "GET /api/reviews/:review_id": "Get a specific review by its id",
     "GET /api/reviews":
-      "Get all the reviews - _allows to sort by sort_by=validColumns > default to created_at, order=asc/desc > default to desc; limit=positiveNumber > default to 10 results and filter by category=existingCategory_.",
+      "Get all the reviews - _allows to sort by sort_by=validColumns > default to created_at, order=asc/desc > default to desc; limit=positiveNumber > default to 10 results, decide pagination p=positiveNumber > default to 0 and filter by category=existingCategory_.",
     "GET /api/reviews/:review_id/comments":
       "Get all the comments relative to the specific review id",
     "GET /api/users": "Get all the users",
@@ -21,5 +21,5 @@ exports.welcomeAPI = (req, res) => {
 };
 
 exports.welcome = (req, res) => {
-  res.send({ msg: "Welcome! Please go to the API endpoint" });
+  res.send({ msg: "Welcome! Please go to the API endpoint >> /api" });
 };
