@@ -44,7 +44,8 @@ I have create the seeding from some js files to a db and setup the endpoints, I 
   },
   devDependencies: {
     "jest": "^27.0.4",
-    "supertest": "^6.1.3"
+    "supertest": "^6.1.3",
+    "jest-sorted": "^1.0.12"
   },
 ```
 
