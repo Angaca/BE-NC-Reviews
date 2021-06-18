@@ -370,3 +370,26 @@ describe("POST /api/reviews", () => {
     expect(body.msg).toBe("Invalid data");
   });
 });
+
+describe("POST /api/categories", () => {
+  test("status 201 - should add a new categories and return it", async () => {
+    const newCategory = { slug: "fps", description: "fps in a table game?!" };
+    const { body } = await request(app)
+      .post("/api/categories")
+      .send(newCategory)
+      .expect(201);
+    expect(body.category[0]).toEqual(
+      expect.objectContaining({
+        slug: "fps",
+        description: "fps in a table game?!",
+      })
+    );
+  });
+  test("status 400 - should return an error if any mandatory key is missing from the body", async () => {
+    const { body } = await request(app)
+      .post("/api/categories")
+      .send({})
+      .expect(400);
+    expect(body.msg).toBe("Malformed body");
+  });
+});
