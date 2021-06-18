@@ -21,8 +21,8 @@ Following Northcoders instruction to setup the endpoints, I have made those avai
 
 - **GET /api/categories:** Get all the available categories.
 - **GET /api/reviews/:review_id:** Get a specific review by its id.
-- **GET /api/reviews:** Get all the reviews - _allows to sort by sort_by=validColumns > default to created_at, order=asc/desc > default to desc; limit=positiveNumber > default to 10 results, decide pagination p=positiveNumber > default to 0 and filter by category=existingCategory_.
-- **GET /api/reviews/:review_id/comments:** Get all the comments relative to the specific review id.
+- **GET /api/reviews:** Get all the reviews - _allows to sort by ?sort_by=validColumns > default to created_at, ?order=asc/desc > default to desc; ?limit=positiveNumber > default to 10 results, decide pagination ?p=positiveNumber > default to 0 and filter by ?category=existingCategory_.
+- **GET /api/reviews/:review_id/comments:** Get all the comments relative to the specific review id - _allows to limit results via query ?limit=positiveNumber > default to 10 results, decide pagination ?p=positiveNumber > default to 0_.
 - **GET /api/users:** Get all the users.
 - **GET /api/users/:username:** Get the specific user by its username.
 - **PATCH /api/reviews/:review_id:** Allows to increment the votes of the specific review - _only accepts an object format like >> { inc_votes : Number }_.

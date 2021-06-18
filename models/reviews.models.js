@@ -89,11 +89,16 @@ exports.selectReviews = async (
   return rows;
 };
 
-exports.selectCommentsByReviewId = async (review_id) => {
+exports.selectCommentsByReviewId = async (review_id, limit = 10, p = 0) => {
+  if (!/^\d+$/.test(limit)) return rejectWrongQuery("limit");
+  if (!/^\d+$/.test(p)) return rejectWrongQuery("pagination");
+
   const { rows } = await db.query(
     `SELECT comment_id, votes, created_at, author, body FROM comments
   LEFT JOIN users ON users.username = comments.author
-  WHERE review_id = $1;`,
+  WHERE review_id = $1
+  OFFSET ${p * limit}
+  LIMIT ${limit}`,
     [review_id]
   );
   return rows;

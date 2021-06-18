@@ -205,9 +205,9 @@ describe("GET /api/reviews", () => {
     const { body } = await request(app).get("/api/reviews?p=1").expect(200);
     expect(body.reviews).toHaveLength(3);
   });
-  xtest("status 200 - return object should have a total_count property which count the total element returning from the query", async () => {
+  test("status 200 - return object should have a total_count property which count the total element returning from the query", async () => {
     const { body } = await request(app).get("/api/reviews?p=1").expect(200);
-    expect(body.reviews.total_count).toBe(3);
+    expect(body.total_count).toBe(3);
   });
 });
 
@@ -231,9 +231,15 @@ describe("GET /api/reviews/:review_id/comments", () => {
   });
   test("status 404 - should return a 404 Not found for an invalid id", async () => {
     const { body } = await request(app)
-      .get("/api/reviews/NaN/categories")
-      .expect(404);
-    expect(body.msg).toBe("Not found");
+      .get("/api/reviews/NaN/comments")
+      .expect(400);
+    expect(body.msg).toBe("Invalid type of data");
+  });
+  test("status 200 - should accept a limit query which limit the number of comments", async () => {
+    const { body } = await request(app)
+      .get("/api/reviews/3/comments?limit=1")
+      .expect(200);
+    expect(body.comments).toHaveLength(1);
   });
 });
 
