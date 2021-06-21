@@ -13,6 +13,8 @@ exports.welcomeAPI = (req, res, next) => {
       "Allows to increment the votes of the specific review or to change its body - only accepts an object format like >> (at least one of the keys is mandatory) >> { inc_votes: Number, review_body: String }",
     "PATCH /api/comments/:comment_id":
       "Allows to increment the votes of the specific comment or to change its body - only accepts an object format like >> (at least one of the keys is mandatory) >> { inc_votes: Number, review_body: String }",
+    "PATCH /api/users/:username":
+      "Allows to edit user's name and avatar URL - only accepts an object format like (at least one of the keys is mandatory) >> { avatar_url: String, name: String }",
     "POST /api/category":
       "Allows to post a new category - only accepts an object format like >> { slug: String, description: String }",
     "POST /api/reviews":

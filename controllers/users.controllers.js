@@ -1,4 +1,8 @@
-const { selectUsers, selectUserByUsername } = require("../models/users.models");
+const {
+  selectUsers,
+  selectUserByUsername,
+  updateUser,
+} = require("../models/users.models");
 
 exports.getUsers = (req, res, next) => {
   selectUsers()
@@ -9,6 +13,14 @@ exports.getUsers = (req, res, next) => {
 exports.getUserByUsername = (req, res, next) => {
   const { username } = req.params;
   selectUserByUsername(username)
+    .then((user) => res.send({ user }))
+    .catch(next);
+};
+
+exports.patchUser = (req, res, next) => {
+  const { username } = req.params;
+  const { avatar_url, name } = req.body;
+  updateUser(username, avatar_url, name)
     .then((user) => res.send({ user }))
     .catch(next);
 };

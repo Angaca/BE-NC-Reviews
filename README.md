@@ -28,6 +28,7 @@ I have create the seeding from some js files to a db and setup the endpoints, I 
 - **GET /api/users/:username:** Get the specific user by its username.
 - **PATCH /api/reviews/:review_id:** Allows to increment the votes of the specific review or to change its body - _only accepts an object format like (at least one of the keys is mandatory) >> { inc_votes: Number, review_body: String }_.
 - **PATCH /api/comments/:comment_id:** Allows to increment the votes of the specific comment or to change its body - _only accepts an object format like (at least one of the keys is mandatory) >> { inc_votes: Number, review_body: String }_.
+- **PATCH /api/users/:username:** Allows to edit user's name and avatar URL - _only accepts an object format like (at least one of the keys is mandatory) >> { avatar_url: String, name: String }_.
 - **POST /api/category:** Allows to post a new category - _only accepts an object format like >> { slug: String, description: String }_.
 - **POST /api/reviews:** Allows to post a new comment - _only accepts an object format like >> { owner: existingUsername, title: String, review_body: String, designer: String, category: existingCategory }_.
 - **POST /api/reviews/:review_id/comments:** Allows to post a new comment - _only accepts an object format like >> { username: existingUsername, body: String }_.

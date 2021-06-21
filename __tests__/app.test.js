@@ -360,6 +360,13 @@ describe("PATCH /api/comments/:comment_id", () => {
       })
     );
   });
+  test("status 400 - should return 400 Bad request for a malformed body (missing inc_votes or body)", async () => {
+    const { body } = await request(app)
+      .patch("/api/comments/1")
+      .send({})
+      .expect(400);
+    expect(body.msg).toBe("Malformed body");
+  });
 });
 
 describe("POST /api/reviews", () => {
@@ -434,7 +441,7 @@ describe("POST /api/categories", () => {
   });
 });
 
-describe("DELETE /api/reviews/review_id", () => {
+describe("DELETE /api/reviews/:review_id", () => {
   test("status 204 - should delete the review given its id", async () => {
     const { body } = await request(app).delete("/api/reviews/5").expect(204);
     expect(body).toEqual({});
@@ -446,5 +453,33 @@ describe("DELETE /api/reviews/review_id", () => {
   test("status 404 - should return an error if an not existent id is provided", async () => {
     const { body } = await request(app).delete("/api/reviews/1000").expect(404);
     expect(body.msg).toBe("Not existent Id");
+  });
+});
+
+describe("PATCH /api/users/:username", () => {
+  test("status 200 - should accept to patch and change users information", async () => {
+    const patch = {
+      avatar_url: "This is a new URL",
+      name: "This is the new name!",
+    };
+    const { body } = await request(app)
+      .patch("/api/users/bainesface")
+      .send(patch)
+      .expect(200);
+    expect(body.user).toHaveLength(1);
+    expect(body.user[0]).toEqual(
+      expect.objectContaining({
+        username: "bainesface",
+        avatar_url: "This is a new URL",
+        name: "This is the new name!",
+      })
+    );
+  });
+  test("status 400 - should return 400 Bad request for a malformed body (missing avatar_url or name)", async () => {
+    const { body } = await request(app)
+      .patch("/api/users/bainesface")
+      .send({})
+      .expect(400);
+    expect(body.msg).toBe("Malformed body");
   });
 });
