@@ -1,6 +1,6 @@
 # Angaca Northcoders House Of Games API
 
-This is my first solo project, I have designed an API that allows the user to get few piece of data relative to table games; specifically reviews and comments about those games.
+This is my first solo project made as a student of Northcoders, I have designed an API that allows the user to get few piece of data relative to table games; specifically reviews and comments about those games.
 
 [Hosted version](https://nc-games-angaca.herokuapp.com/)
 
