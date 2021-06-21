@@ -26,7 +26,7 @@ I have create the seeding from some js files to a db and setup the endpoints, I 
 - **GET /api/reviews/:review_id/comments:** Get all the comments relative to the specific review id - _allows to limit results via query ?limit=positiveNumber > default to 10 results, decide pagination ?p=positiveNumber > default to 0_.
 - **GET /api/users:** Get all the users.
 - **GET /api/users/:username:** Get the specific user by its username.
-- **PATCH /api/reviews/:review_id:** Allows to increment the votes of the specific review - _only accepts an object format like >> { inc_votes : Number }_.
+- **PATCH /api/reviews/:review_id:** Allows to increment the votes of the specific review or to change its body - _only accepts an object format like (at least one of the keys is mandatory) >> { inc_votes: Number, review_body: String }_.
 - **PATCH /api/comments/:comment_id:** Allows to increment the votes of the specific comment - _only accepts an object format like >> { inc_votes : Number }_.
 - **POST /api/category:** Allows to post a new category - _only accepts an object format like >> { slug: String, description: String }_.
 - **POST /api/reviews:** Allows to post a new comment - _only accepts an object format like >> { owner: existingUsername, title: String, review_body: String, designer: String, category: existingCategory }_.

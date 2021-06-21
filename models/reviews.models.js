@@ -29,16 +29,31 @@ exports.selectReviewById = async (review_id) => {
   return rows;
 };
 
-exports.updateReview = async (review_id, inc_votes) => {
-  if (!inc_votes) return Promise.reject({ status: 400, msg: "Malformed body" });
-  const { rows } = await db.query(
-    `UPDATE reviews
-  SET
-    votes = votes + $2
-  WHERE review_id = $1
-  RETURNING *`,
-    [review_id, inc_votes]
-  );
+exports.updateReview = async (review_id, inc_votes, review_body) => {
+  if (!inc_votes && !review_body)
+    return Promise.reject({ status: 400, msg: "Malformed body" });
+
+  const queryValues = [review_id];
+  let valuesLen = queryValues.length + 1;
+  let queryStr = `UPDATE reviews
+  SET `;
+
+  if (inc_votes) {
+    queryStr += `votes = votes + $${valuesLen++}`;
+    queryValues.push(inc_votes);
+  }
+
+  if (inc_votes && review_body) queryStr += `, `;
+
+  if (review_body) {
+    queryStr += `review_body = $${valuesLen} `;
+    queryValues.push(review_body);
+  }
+
+  queryStr += `WHERE review_id = $1
+  RETURNING *;`;
+
+  const { rows } = await db.query(queryStr, queryValues);
   if (rows.length === 0) {
     return rejectWrongData();
   }

@@ -20,11 +20,18 @@
 
 -- SELECT review_body FROM reviews;
 
-INSERT INTO reviews
-  (owner, title, review_body, designer, category)
+-- INSERT INTO reviews
+--   (owner, title, review_body, designer, category)
   
-  SELECT owner, title, review_body, designer, category, COUNT(comment_id) AS comment_count FROM reviews 
-    LEFT JOIN users ON users.username = reviews.owner
-    LEFT JOIN comments ON comments.review_id = reviews.review_id
-    GROUP BY reviews.review_id
-  RETURNING *;
+--   SELECT owner, title, review_body, designer, category, COUNT(comment_id) AS comment_count FROM reviews 
+--     LEFT JOIN users ON users.username = reviews.owner
+--     LEFT JOIN comments ON comments.review_id = reviews.review_id
+--     GROUP BY reviews.review_id
+--   RETURNING *;
+
+UPDATE reviews
+  SET
+    votes = votes + 2,
+    review_body = 'roba'
+  WHERE review_id = 2
+  RETURNING *

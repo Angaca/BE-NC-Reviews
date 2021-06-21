@@ -10,7 +10,7 @@ exports.welcomeAPI = (req, res, next) => {
     "GET /api/users": "Get all the users",
     "GET /api/users/:username": "Get the specific user by its username",
     "PATCH /api/reviews/:review_id":
-      "Allows to increment the votes of the specific review - only accepts an object format like >> { inc_votes : Number }",
+      "Allows to increment the votes of the specific review or to change its body - only accepts an object format like (at least one of the keys is mandatory) >> { inc_votes: Number, review_body: String }",
     "PATCH /api/comments/:comment_id":
       "Allows to increment the votes of the specific comment - only accepts an object format like >> { inc_votes : Number }",
     "POST /api/category":

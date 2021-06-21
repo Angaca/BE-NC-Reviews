@@ -111,19 +111,39 @@ describe("PATCH /api/reviews/:review_id", () => {
       .expect(400);
     expect(body.msg).toBe("Invalid data");
   });
-  test("status 400 - should return 400 Bad request for a malformed body (missing inc_votes)", async () => {
+  test("status 400 - should return 400 Bad request for a malformed body (missing inc_votes or review_body)", async () => {
     const { body } = await request(app)
       .patch("/api/reviews/1")
       .send({})
       .expect(400);
     expect(body.msg).toBe("Malformed body");
   });
+  test("status 200 - should accept to patch and change the review body", async () => {
+    const patch = { inc_votes: 0, review_body: "This is the new review body!" };
+    const { body } = await request(app)
+      .patch("/api/reviews/2")
+      .send(patch)
+      .expect(200);
+    expect(body.review).toHaveLength(1);
+    expect(body.review[0]).toEqual(
+      expect.objectContaining({
+        review_id: 2,
+        title: "Jenga",
+        review_body: "This is the new review body!",
+        designer: "Leslie Scott",
+        review_img_url: expect.any(String),
+        votes: 5,
+        category: "dexterity",
+        owner: "philippaclaire9",
+        created_at: expect.any(String),
+      })
+    );
+  });
 });
 
 describe("GET /api/reviews", () => {
   test("status 200 - should return an array of all the reviews", async () => {
     const { body } = await request(app).get("/api/reviews").expect(200);
-    //expect(body.reviews).toHaveLength(13);
     body.reviews.forEach((review) => {
       expect(review).toEqual(
         expect.objectContaining({
