@@ -60,7 +60,7 @@ I have hosted the API with Heroku.
 
 ### Setup
 
-You can clone from my [repo](https://github.com/Angaca/be-nc-games.git).
+You can clone from my [repo](https://github.com/Angaca/games-reviews)
 
 Install all the dependencies:
 
