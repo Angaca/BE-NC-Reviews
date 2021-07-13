@@ -6,6 +6,7 @@ const {
   insertComment,
   insertReview,
   dropReview,
+  reviewsCount,
 } = require("../models/reviews.models");
 
 exports.getReviewById = (req, res, next) => {
@@ -23,11 +24,16 @@ exports.patchReview = (req, res, next) => {
     .catch(next);
 };
 
-exports.getReviews = (req, res, next) => {
+exports.getReviews = async (req, res, next) => {
+  const total_count = await reviewsCount();
   const { sort_by, order, category, limit, p } = req.query;
   selectReviews(sort_by, order, category, limit, p)
     .then((reviews) => {
-      res.send({ total_count: reviews.length, reviews });
+      res.send({
+        total_count: total_count,
+        current_count: reviews.length,
+        reviews,
+      });
     })
     .catch(next);
 };

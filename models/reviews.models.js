@@ -60,6 +60,11 @@ exports.updateReview = async (review_id, inc_votes, review_body) => {
   return rows[0];
 };
 
+exports.reviewsCount = async () => {
+  const { rows } = await db.query("SELECT review_id FROM reviews");
+  return rows.length;
+};
+
 exports.selectReviews = async (
   sort_by = "created_at",
   order = "desc",
