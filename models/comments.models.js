@@ -6,6 +6,7 @@ exports.dropCommentById = async (comment_id) => {
     WHERE comment_id = $1;`,
     [comment_id]
   );
+  return;
 };
 
 exports.updateCommentById = async (comment_id, inc_votes, body) => {
@@ -36,5 +37,5 @@ exports.updateCommentById = async (comment_id, inc_votes, body) => {
   if (rows.length === 0) {
     return rejectWrongData();
   }
-  return rows;
+  return rows[0];
 };

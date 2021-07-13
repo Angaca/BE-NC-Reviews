@@ -18,5 +18,5 @@ exports.insertCategory = async (slug, description) => {
     [[slug, description]]
   );
   const { rows } = await db.query(queryStr);
-  return rows;
+  return rows[0];
 };

@@ -26,7 +26,7 @@ exports.selectReviewById = async (review_id) => {
   if (rows.length === 0) {
     return rejectWrongData();
   }
-  return rows;
+  return rows[0];
 };
 
 exports.updateReview = async (review_id, inc_votes, review_body) => {
@@ -57,7 +57,7 @@ exports.updateReview = async (review_id, inc_votes, review_body) => {
   if (rows.length === 0) {
     return rejectWrongData();
   }
-  return rows;
+  return rows[0];
 };
 
 exports.selectReviews = async (
@@ -131,7 +131,7 @@ exports.insertComment = async (review_id, username, body) => {
     [[review_id, username, body]]
   );
   const { rows } = await db.query(queryStr);
-  return rows;
+  return rows[0];
 };
 
 exports.insertReview = async (
@@ -153,7 +153,7 @@ exports.insertReview = async (
   );
   const { rows } = await db.query(queryStr);
   rows[0].comment_count = 0;
-  return rows;
+  return rows[0];
 };
 
 exports.dropReview = async (review_id) => {

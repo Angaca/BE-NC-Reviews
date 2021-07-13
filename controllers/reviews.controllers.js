@@ -27,7 +27,7 @@ exports.getReviews = (req, res, next) => {
   const { sort_by, order, category, limit, p } = req.query;
   selectReviews(sort_by, order, category, limit, p)
     .then((reviews) => {
-      res.send({ reviews, total_count: reviews.length });
+      res.send({ total_count: reviews.length, reviews });
     })
     .catch(next);
 };

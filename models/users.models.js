@@ -11,7 +11,7 @@ exports.selectUserByUsername = async (username) => {
     WHERE username = $1;`,
     [username]
   );
-  return rows;
+  return rows[0];
 };
 
 exports.updateUser = async (username, avatar_url, name) => {
@@ -42,5 +42,5 @@ exports.updateUser = async (username, avatar_url, name) => {
   if (rows.length === 0) {
     return rejectWrongData();
   }
-  return rows;
+  return rows[0];
 };

@@ -39,8 +39,7 @@ describe("GET /api/categories", () => {
 describe("GET /api/reviews/:review_id", () => {
   test("status 200 - should return an array of a single object of a single review", async () => {
     const { body } = await request(app).get("/api/reviews/2").expect(200);
-    expect(body.review).toHaveLength(1);
-    expect(body.review[0]).toEqual(
+    expect(body.review).toEqual(
       expect.objectContaining({
         review_id: 2,
         title: expect.any(String),
@@ -72,8 +71,7 @@ describe("PATCH /api/reviews/:review_id", () => {
       .patch("/api/reviews/1")
       .send(patch)
       .expect(200);
-    expect(body.review).toHaveLength(1);
-    expect(body.review[0]).toEqual(
+    expect(body.review).toEqual(
       expect.objectContaining({
         review_id: expect.any(Number),
         title: expect.any(String),
@@ -124,8 +122,7 @@ describe("PATCH /api/reviews/:review_id", () => {
       .patch("/api/reviews/2")
       .send(patch)
       .expect(200);
-    expect(body.review).toHaveLength(1);
-    expect(body.review[0]).toEqual(
+    expect(body.review).toEqual(
       expect.objectContaining({
         review_id: 2,
         title: "Jenga",
@@ -281,8 +278,8 @@ describe("POST /api/reviews/:review_id/comments", () => {
       .post("/api/reviews/2/comments")
       .send(newComment)
       .expect(201);
-    expect(body.comment[0].author).toBe("bainesface");
-    expect(body.comment[0].body).toBe("Yes! Amazing :)");
+    expect(body.comment.author).toBe("bainesface");
+    expect(body.comment.body).toBe("Yes! Amazing :)");
   });
 });
 
@@ -296,8 +293,8 @@ describe("DELETE /api/comments/:comment_id", () => {
 describe("GET /api/users", () => {
   test("status 200 - should respond with an array of object with any object having the username property as the only value", async () => {
     const { body } = await request(app).get("/api/users").expect(200);
-    expect(body).toHaveLength(4);
-    body.forEach((user) => {
+    expect(body.users).toHaveLength(4);
+    body.users.forEach((user) => {
       expect(user).toEqual(
         expect.objectContaining({
           username: expect.any(String),
@@ -312,7 +309,7 @@ describe("GET /api/users/:username", () => {
     const { body } = await request(app)
       .get("/api/users/bainesface")
       .expect(200);
-    expect(body.user[0]).toEqual(
+    expect(body.user).toEqual(
       expect.objectContaining({
         username: "bainesface",
         avatar_url:
@@ -330,7 +327,7 @@ describe("PATCH /api/comments/:comment_id", () => {
       .patch("/api/comments/1")
       .send(patch)
       .expect(200);
-    expect(body.comment[0]).toEqual(
+    expect(body.comment).toEqual(
       expect.objectContaining({
         comment_id: 1,
         author: "bainesface",
@@ -349,8 +346,7 @@ describe("PATCH /api/comments/:comment_id", () => {
       .patch("/api/comments/1")
       .send(patch)
       .expect(200);
-    expect(body.comment).toHaveLength(1);
-    expect(body.comment[0]).toEqual(
+    expect(body.comment).toEqual(
       expect.objectContaining({
         comment_id: 1,
         author: "bainesface",
@@ -382,7 +378,7 @@ describe("POST /api/reviews", () => {
       .post("/api/reviews")
       .send(newReview)
       .expect(201);
-    expect(body.review[0]).toEqual(
+    expect(body.review).toEqual(
       expect.objectContaining({
         owner: "bainesface",
         title: "Exciting game",
@@ -425,7 +421,7 @@ describe("POST /api/categories", () => {
       .post("/api/categories")
       .send(newCategory)
       .expect(201);
-    expect(body.category[0]).toEqual(
+    expect(body.category).toEqual(
       expect.objectContaining({
         slug: "fps",
         description: "fps in a table game?!",
@@ -466,8 +462,7 @@ describe("PATCH /api/users/:username", () => {
       .patch("/api/users/bainesface")
       .send(patch)
       .expect(200);
-    expect(body.user).toHaveLength(1);
-    expect(body.user[0]).toEqual(
+    expect(body.user).toEqual(
       expect.objectContaining({
         username: "bainesface",
         avatar_url: "This is a new URL",
