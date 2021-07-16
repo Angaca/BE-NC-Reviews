@@ -1,7 +1,7 @@
 const db = require("../db/connection");
 
 exports.selectUsers = async () => {
-  const { rows } = await db.query(`SELECT username FROM users;`);
+  const { rows } = await db.query(`SELECT username, avatar_url FROM users;`);
   return rows;
 };
 
